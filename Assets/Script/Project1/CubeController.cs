@@ -4,32 +4,58 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
-    int index;
-    public int Index
+    int line, column;
+    bool clicked, hasItBeenChecked;
+    Renderer render;
+
+    public bool Clicked
     {
-        get { return index; }
-        set { index = value; }
+        get { return clicked; }
+        set { clicked = value; }
     }
-    bool clicked;
-    Renderer renderer;
+    public bool HasItBeenChecked 
+    {
+        get { return hasItBeenChecked; }  
+        set { hasItBeenChecked = value; } 
+    }
 
     private void OnEnable()
     {
-        renderer = GetComponent<Renderer>();
-        renderer.material = RefManager.Instance.cubeNotClickedMat;
+        render = GetComponent<Renderer>();
+        DefaultValues();
     }
 
     public void Click()
     {
-        if (clicked)
+        if (Clicked)
             return;
-        clicked = true;
-        renderer.material = RefManager.Instance.cubeClickedMat;
+        Clicked = true;
+        render.material = RefManager.Instance.cubeClickedMat;
+        CubesManager.Instance.StartControl(line, column);
 
+    }
+    public void SetLineAndColumn(int newLine, int newColumn)
+    {
+        line = newLine;
+        column = newColumn;
+    }
+    public int GetLine()
+    {
+        return line;
+    }
+    public int GetColumn()
+    {
+        return column;
     }
     private void OnMouseDown()
     {
         Click();
     }
-    
+    public void DefaultValues()
+    {
+        HasItBeenChecked = false;
+        Clicked = false;
+        render.material = RefManager.Instance.cubeNotClickedMat;
+    }
+
 }
