@@ -4,18 +4,32 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
-    int line, column;
-    public void SetLineAndColumn(int newLine, int newColumn)
+    int index;
+    public int Index
     {
-        line = newLine;
-        column = newColumn;
+        get { return index; }
+        set { index = value; }
     }
-    public int GetLine()
+    bool clicked;
+    Renderer renderer;
+
+    private void OnEnable()
     {
-        return line;
+        renderer = GetComponent<Renderer>();
+        renderer.material = RefManager.Instance.cubeNotClickedMat;
     }
-    public int GetColumn()
+
+    public void Click()
     {
-        return column;
+        if (clicked)
+            return;
+        clicked = true;
+        renderer.material = RefManager.Instance.cubeClickedMat;
+
     }
+    private void OnMouseDown()
+    {
+        Click();
+    }
+    
 }

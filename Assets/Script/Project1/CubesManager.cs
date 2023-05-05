@@ -28,17 +28,24 @@ public class CubesManager : MonoBehaviour
     }
     public void CreateCube()
     {
-        for (int i = 0; i < cubeCount; i++)
+        for (int i = 0; i < cubeCount*cubeCount; i++)
         {
-            for (int j = 0; j < cubeCount; j++)
-            {
-                Transform newCube = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
-                newCube.name = i + "-" + j;
-                CubeController cubeController = newCube.gameObject.AddComponent<CubeController>();
-                cubeController.SetLineAndColumn(i, j);
-                cubes.Add(newCube);
-            }
+            Transform newCube = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
+            CubeController cubeController = newCube.gameObject.AddComponent<CubeController>();
+            cubeController.Index = i;
+            cubes.Add(newCube);
         }
+        //for (int i = 0; i < cubeCount; i++)
+        //{
+        //    for (int j = 0; j < cubeCount; j++)
+        //    {
+        //        Transform newCube = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
+        //        newCube.name = i + "-" + j;
+        //        CubeController cubeController = newCube.gameObject.AddComponent<CubeController>();
+        //        cubeController.SetLineAndColumn(i, j);
+        //        cubes.Add(newCube);
+        //    }
+        //}
     }
     public void EditingPositionAndScale()
     {
@@ -67,7 +74,11 @@ public class CubesManager : MonoBehaviour
         cubeSize = (CameraManager.Instance.CameraSize() - totalSpaceSize) / cubeCount;
     }
 
-    public void CheckIt()
+    public void Check(int selectedIndex)
+    {
+
+    }
+    public void CheckRightSide()
     {
 
     }
