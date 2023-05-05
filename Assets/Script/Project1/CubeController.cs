@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
-    int line, column;
-    bool clicked, hasItBeenChecked;
+    int line, column;//Oluþtuklarýndaki noktalarý
+    bool clicked, hasItBeenChecked;//Týklandýmý ve kontrol edildimi deðerleri
     Renderer render;
 
     public bool Clicked
@@ -25,12 +25,12 @@ public class CubeController : MonoBehaviour
         DefaultValues();
     }
 
-    public void Click()
+    public void Click()//Týklandýðýnda yapýlacaklar
     {
         if (Clicked)
             return;
         Clicked = true;
-        render.material = RefManager.Instance.cubeClickedMat;
+        render.material = RefManager.Instance.cubeClickedMat; // Çarpý iþaretini material ile veriyoruz.
         CubesManager.Instance.StartControl(line, column);
 
     }

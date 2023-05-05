@@ -4,26 +4,32 @@ using UnityEngine;
 
 public class CubesManager : Singleton<CubesManager>
 {
-    int cubeCount = 4;
-    float spaceSize = .1f;
-    List < Transform> cubes = new List<Transform>();
-    List<CubeController> cubeControllers = new List<CubeController>();
-    float totalSpaceSize;
-    float cubeSize;
-
-    void Start()
+    int cubeCount = 3; 
+    float spaceSize = .1f; // Küpler arasýndaki býrakýlacak boþluk mesafesi
+    List<CubeController> cubeControllers = new List<CubeController>();// Oluþturulan küplerin listesi
+    List<CubeController> correctChecklist = new List<CubeController>();// Kontrol sýrasýnda seçilen küplerin listesi
+    float totalSpaceSize;//Toplam boþluk mesafesi
+    float cubeSize;//Küplerin boyutu
+    
+    public void CreateMap(int newCount)
     {
+        cubeCount = newCount;
         DestroyAllCubes();
         CreateCube();
         EditingPositionAndScale();
     }
+    private void Update()
+    {
+        EditingPositionAndScale();
+    }
+    #region CubeSetting
 
     public void DestroyAllCubes()
     {
-        while (cubes.Count != 0)
+        while (cubeControllers.Count != 0)
         {
-            Transform selectedCube = cubes[0];
-            cubes.RemoveAt(0);
+            Transform selectedCube = cubeControllers[0].transform;
+            cubeControllers.RemoveAt(0);
             DestroyImmediate(selectedCube.gameObject);
         }
     }
@@ -34,11 +40,9 @@ public class CubesManager : Singleton<CubesManager>
             for (int j = 0; j < cubeCount; j++)
             {
                 Transform newCube = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
-                newCube.name = i + "-" + j;
                 CubeController cubeController = newCube.gameObject.AddComponent<CubeController>();
                 cubeController.SetLineAndColumn(i, j);
                 cubeControllers.Add(cubeController);
-                cubes.Add(newCube);
             }
         }
     }
@@ -52,7 +56,7 @@ public class CubesManager : Singleton<CubesManager>
             currentCubePos.y -= spaceSize + cubeSize * .5f;
             for (int j = 0; j < cubeCount; j++)
             {
-                Transform newCube = cubes[i * cubeCount + j];
+                Transform newCube = cubeControllers[i * cubeCount + j].transform;
                 newCube.SetParent(transform);
                 newCube.localScale = Vector3.one * cubeSize;
                 currentCubePos.x += spaceSize + cubeSize * .5f;
@@ -68,12 +72,12 @@ public class CubesManager : Singleton<CubesManager>
         totalSpaceSize = spaceSize * (cubeCount + 1);
         cubeSize = (CameraManager.Instance.CameraSize() - totalSpaceSize) / cubeCount;
     }
-    List<CubeController> correctChecklist = new List<CubeController>();
+    #endregion
+    #region Control
     public void StartControl(int line, int column)
     {
         correctChecklist.Clear();
         Check(line, column);
-        Debug.Log(correctChecklist.Count);
         if(correctChecklist.Count>=3)
             foreach (var item in correctChecklist)
                 item.DefaultValues();
@@ -116,6 +120,7 @@ public class CubesManager : Singleton<CubesManager>
         }
         return list;
     }
+    #endregion
 
 }
 

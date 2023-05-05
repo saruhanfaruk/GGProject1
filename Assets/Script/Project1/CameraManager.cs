@@ -12,11 +12,7 @@ public class CameraManager : Singleton<CameraManager>
     public float CameraSize()
     {
         float screenHeightInUnits = mainCamera.orthographicSize * 2;
-        //float screenWidthInUnits =  // basically height * screen aspect ratio
-        if(Screen.width<= Screen.height)
-            return screenHeightInUnits * Screen.width / Screen.height;
-        else
-            return screenHeightInUnits * Screen.height / Screen.width;
+        return screenHeightInUnits * Screen.width / Screen.height;
     }
     public float Left()
     {
