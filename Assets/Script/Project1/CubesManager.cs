@@ -116,13 +116,6 @@ public class CubesManager : Singleton<CubesManager>
         if(column!=0)
             list.Add(line * cubeCount + (column - 1));//Sol nokta
 
-
-
-        Debug.Log(line + "  " + column);
-        Debug.Log(((line + 1) * cubeCount + column) + "      " + ((line - 1) * cubeCount + column));
-        Debug.Log((line * cubeCount + (column + 1)) + "     " + (line * cubeCount + (column - 1)));
-        Debug.Log(column + "      " + (cubeCount - 1));
-
         for (int i = list.Count - 1; i >= 0; i--)
         {
             if (list[i] < 0 || list[i] >= maxCount)
